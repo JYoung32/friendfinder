@@ -48,7 +48,7 @@
         <a class="chosen-single chosen-default"><span>Select an Option</span>
         </a>
         <br>
-        <select class="select" id="q1">
+        <select class="select" id="q2">
             <option value=""></option>
             <option value="1">1 (Strongly Disagree)</option>
             <option value="2">2</option>
@@ -64,7 +64,7 @@
         <a class="chosen-single chosen-default"><span>Select an Option</span>
         </a>
         <br>
-        <select class="select" id="q1">
+        <select class="select" id="q3">
             <option value=""></option>
             <option value="1">1 (Strongly Disagree)</option>
             <option value="2">2</option>
@@ -80,7 +80,7 @@
         <a class="chosen-single chosen-default"><span>Select an Option</span>
         </a>
         <br>
-        <select class="select" id="q1">
+        <select class="select" id="q4">
             <option value=""></option>
             <option value="1">1 (Strongly Disagree)</option>
             <option value="2">2</option>
@@ -96,7 +96,7 @@
         <a class="chosen-single chosen-default"><span>Select an Option</span>
         </a>
         <br>
-        <select class="select" id="q1">
+        <select class="select" id="q5">
             <option value=""></option>
             <option value="1">1 (Strongly Disagree)</option>
             <option value="2">2</option>
@@ -112,7 +112,7 @@
         <a class="chosen-single chosen-default"><span>Select an Option</span>
         </a>
         <br>
-        <select class="select" id="q1">
+        <select class="select" id="q6">
             <option value=""></option>
             <option value="1">1 (Strongly Disagree)</option>
             <option value="2">2</option>
@@ -128,7 +128,7 @@
         <a class="chosen-single chosen-default"><span>Select an Option</span>
         </a>
         <br>
-        <select class="select" id="q1">
+        <select class="select" id="q7">
             <option value=""></option>
             <option value="1">1 (Strongly Disagree)</option>
             <option value="2">2</option>
@@ -143,7 +143,7 @@
         <a class="chosen-single chosen-default"><span>Select an Option</span>
         </a>
         <br>
-        <select class="select" id="q1">
+        <select class="select" id="q8">
             <option value=""></option>
             <option value="1">1 (Strongly Disagree)</option>
             <option value="2">2</option>
@@ -159,7 +159,7 @@
             <a class="chosen-single chosen-default"><span>Select an Option</span>
             </a>
             <br>
-            <select class="select" id="q1">
+            <select class="select" id="q9">
                 <option value=""></option>
                 <option value="1">1 (Strongly Disagree)</option>
                 <option value="2">2</option>
@@ -174,7 +174,7 @@
         <a class="chosen-single chosen-default"><span>Select an Option</span>
         </a>
         <br>
-        <select class="select" id="q1">
+        <select class="select" id="q10">
             <option value=""></option>
             <option value="1">1 (Strongly Disagree)</option>
             <option value="2">2</option>
@@ -203,9 +203,51 @@
     </div>
 
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+    
+        $("#submit").on("click", function(event) {
+            event.preventDefault();
+    
+            //grab form elements
+            var newFriend = {
+                name: $("#name").val().trim(),
+                photo: $("#photo").val().trim(),
+                scores: [
+                    $("#q1").val(),
+                    $("#q2").val(),
+                    $("#q3").val(),
+                    $("#q4").val(),
+                    $("#q5").val(),
+                    $("#q6").val(),
+                    $("#q7").val(),
+                    $("#q8").val(),
+                    $("#q9").val(),
+                    $("#q10").val()
+                ]
+    
+            };
+    
+            console.log(newFriend);
+    
+            $.post("/api/friends", newFriend, function(data) {
+                if (data) {
+                    console.log(data);
+                    alert("New friends added");
+                } else {
+                    alert("code didnt work");
+                }
+    
+                //clear form when submitting
+    
+            })
+        })
+    
+        </script>
+
 </body>
 
 </html>
