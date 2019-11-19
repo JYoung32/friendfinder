@@ -196,11 +196,13 @@
         <footer class="footer">
             <div class="container">
                 <p><a href="/api/friends">API Friends List</a> | <a
-                        href="">GitHub Repo</a></p>
+                        href="https://github.com/JYoung32/friendfinder">GitHub Repo</a></p>
             </div>
         </footer>
 
     </div>
+
+    <!-- Add bootstrap modal for match alert -->
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -211,42 +213,52 @@
     
         $("#submit").on("click", function(event) {
             event.preventDefault();
-    
-            //grab form elements
-            var newFriend = {
-                name: $("#name").val().trim(),
-                photo: $("#photo").val().trim(),
-                scores: [
-                    $("#q1").val(),
-                    $("#q2").val(),
-                    $("#q3").val(),
-                    $("#q4").val(),
-                    $("#q5").val(),
-                    $("#q6").val(),
-                    $("#q7").val(),
-                    $("#q8").val(),
-                    $("#q9").val(),
-                    $("#q10").val()
-                ]
-    
+            
+            function formValidation() {
+                //makes sure form is filled out otherwise do not submit form to array
+                var completeForm = true;
+                $(".form-control, .select").each(function() {
+                    if ($(this).val() === ""){
+                        completeForm = false;
+                    }
+                });
+                return completeForm;
+            }
+            
+            if (formValidation() === true) {
+
+                //grab form elements
+                var newFriend = {
+                    name: $("#name").val().trim(),
+                    photo: $("#photo").val().trim(),
+                    scores: [
+                        $("#q1").val(),
+                        $("#q2").val(),
+                        $("#q3").val(),
+                        $("#q4").val(),
+                        $("#q5").val(),
+                        $("#q6").val(),
+                        $("#q7").val(),
+                        $("#q8").val(),
+                        $("#q9").val(),
+                        $("#q10").val()
+                    ]
+                };
+
+                $.post("/api/friends", newFriend, function(data) {
+                });
+                //alert
+                alert("You have been added to the Friend Finder.");
+                //clear the form
+                $("#name, #photo, #q1, #q2, #q3, #q4, #q5, #q6, #q7, #q8, #q9, #q10").val("");
+            } else {
+                alert("Please fill out the survey entirely. Thank You.");
             };
+            
+            console.log(newFriend);        
+        });
     
-            console.log(newFriend);
-    
-            $.post("/api/friends", newFriend, function(data) {
-                if (data) {
-                    console.log(data);
-                    alert("New friends added");
-                } else {
-                    alert("code didnt work");
-                }
-    
-                //clear form when submitting
-    
-            })
-        })
-    
-        </script>
+    </script>
 
 </body>
 
