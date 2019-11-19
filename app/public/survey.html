@@ -40,8 +40,8 @@
             <option value="5">5 (Strongly Agree)</option>
         </select>
         <br>
-        
-        
+
+
 
         <h3><strong>Question 2</strong></h3>
         <h4>Generally speaking, you rely more on your experience than your imagination.</h4>
@@ -156,18 +156,18 @@
         <h3><strong>Question 9</strong></h3>
         <h4>You think that everyone’s views should be respected regardless of whether they are supported by facts or
             not.</h4>
-            <a class="chosen-single chosen-default"><span>Select an Option</span>
-            </a>
-            <br>
-            <select class="select" id="q9">
-                <option value=""></option>
-                <option value="1">1 (Strongly Disagree)</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5 (Strongly Agree)</option>
-            </select>
-            <br>
+        <a class="chosen-single chosen-default"><span>Select an Option</span>
+        </a>
+        <br>
+        <select class="select" id="q9">
+            <option value=""></option>
+            <option value="1">1 (Strongly Disagree)</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5 (Strongly Agree)</option>
+        </select>
+        <br>
 
         <h3><strong>Question 10</strong></h3>
         <h4>You feel more energetic after spending time with a group of people.</h4>
@@ -203,6 +203,50 @@
     </div>
 
     <!-- Add bootstrap modal for match alert -->
+    <!-- Modal -->
+    <div class="modal fade" id="friendMatchModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content text-center">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center" id="exampleModalLabel">Woo! Here is your match!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- insert friend match info here -->
+                    <h3 id="newFriendMatch"></h3>
+                    <img id="newFriendPhoto" src="">
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Modal for empty survey -->
+    <!-- Modal -->
+    <div class="modal fade" id="emptySurvey" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content text-center">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center" id="exampleModalLabel">Survey Not Complete</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Please fill out the survey completely. Thank You!</p>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -210,21 +254,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
     <script type="text/javascript">
-    
-        $("#submit").on("click", function(event) {
+
+        $("#submit").on("click", function (event) {
             event.preventDefault();
-            
+
             function formValidation() {
                 //makes sure form is filled out otherwise do not submit form to array
                 var completeForm = true;
-                $(".form-control, .select").each(function() {
-                    if ($(this).val() === ""){
+                $(".form-control, .select").each(function () {
+                    if ($(this).val() === "") {
                         completeForm = false;
                     }
                 });
                 return completeForm;
             }
-            
+
             if (formValidation() === true) {
                 //grab form elements
                 var newFriend = {
@@ -244,25 +288,22 @@
                     ]
                 };
 
-                $.post("/api/friends", newFriend, function(data) {
+                $.post("/api/friends", newFriend, function (data) {
+                    $("#newFriendMatch").text(data.name);
+                    $("#bestFriendPhoto").attr("src", data.photo);
+                    $("#friendMatchModal").modal("toggle");
                 });
-                //alert
-                alert("You have been added to the Friend Finder.");
                 //clear the form
                 $("#name, #photo, #q1, #q2, #q3, #q4, #q5, #q6, #q7, #q8, #q9, #q10").val("");
 
             } else {
 
-                alert("Please fill out the survey entirely. Thank You.");
+                $("#emptySurvey").modal("toggle");
 
             };
-            
-            console.log(newFriend);
-            console.log(newFriend.scores[0]);
-            
 
         });
-    
+
     </script>
 
 </body>
